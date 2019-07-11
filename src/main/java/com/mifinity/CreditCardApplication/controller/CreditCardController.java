@@ -176,7 +176,7 @@ public class CreditCardController {
 	 */
 	@RequestMapping(value = "/updateExpiryDate", method = RequestMethod.POST)
 	public String updateExpiryDate(@RequestParam("username") String username, CreditCard creditCard) {
-		if (username != null && !"".equals(username) && creditCard != null) {
+		if (username != null && !"".equals(username) && creditCard != null && !("".equalsIgnoreCase(creditCard.getCardNumber()))) {
 			if (creditCardService.updateCardDetails(username, creditCard)) {
 				return "creditCardOptions";
 			}
