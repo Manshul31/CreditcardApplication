@@ -92,16 +92,24 @@ public class CreditCardServiceImpl implements ICreditCardService {
 	 * 
 	 * @return list of matched cards
 	 */
+	/*
+	 * public List<CreditCard> searchCards(String username, String cardNumber) {
+	 * User user = userRepository.findByUsername(username);
+	 * 
+	 * List<CreditCard> cards = null; if ("admin".equals(username)) { cards =
+	 * creditCardRepository.findCardsForAdmin(cardNumber); } else { cards =
+	 * creditCardRepository.findCards(username, cardNumber); } return cards; }
+	 */
+	
 	public List<CreditCard> searchCards(String username, String cardNumber) {
-		User user = userRepository.findByUsername(username);
-		
 		List<CreditCard> cards = null;
-			if ("admin".equals(username)) {
-				cards = creditCardRepository.findCardsForAdmin(cardNumber);
-			} else {
-				cards = creditCardRepository.findCards(username, cardNumber);
-			}
-			return cards;
+		User user = userRepository.findByUsername(username);
+		if (user.getRoles().stream().filter(r -> r.getName().equals(Constants.ROLE_ADMIN)).count() > 0) {
+			cards = creditCardRepository.findCardsForAdmin(cardNumber);
+		} else {
+			cards = creditCardRepository.findCards(username, cardNumber);
+		}
+		return cards;
 	}
 
 	/**
@@ -115,12 +123,12 @@ public class CreditCardServiceImpl implements ICreditCardService {
 	 */
 	@Override
 	public boolean updateCardDetails(String username, CreditCard creditCard) {
-		if (username != null && !"".equals(username) && creditCard != null && !("".equalsIgnoreCase(creditCard.getCardNumber()))) {
+		
 			if (creditCardRepository.updateCardDetails(username, creditCard.getCardNumber(),
 					creditCard.getExpiryDate()) == 1) {
 				return true;
 			}
-		}
+		
 		return false;
 	}
 
