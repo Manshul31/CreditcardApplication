@@ -39,9 +39,9 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         }
         
         //Create admin
-        User user = userRepository.findByUsername("admin");
+        User user = userRepository.findByUsername(Constants.ADMIN_USER);
         if (user == null) {
-            user = new User("admin", bCryptPasswordEncoder.encode("admin"), adminRole);
+            user = new User("admin", bCryptPasswordEncoder.encode(Constants.ADMIN_PASSWORD), adminRole);
             userRepository.save(user);
         }
 		

@@ -22,6 +22,12 @@ function validateForm()
         return false;
     }
     
+    if(cardNumber.length != 16)
+    {
+        alert("Card Number should be 16 digits");
+        return false;
+    }
+    
     if(expiryDate==null || expiryDate=="")
     {
         alert("Please enter the expiry date in (YY/MM) format");
